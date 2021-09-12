@@ -6,6 +6,8 @@ import {
   TextInput as Input,
   TouchableOpacity
 } from 'react-native';
+import { Button } from '../components/Button';
+import { SkillCard } from '../components/SkillCard';
 
 export function Home() {
 
@@ -13,6 +15,10 @@ export function Home() {
   const [mySkills, setMySkills] = useState([]);
 
   function handleAddNewSkill() {
+    const skillAlreadyExists = mySkills.find(skill => skill === newSkill);
+
+    if(skillAlreadyExists || !newSkill) return;
+
     setMySkills([...mySkills, newSkill]);
   }
 
@@ -27,23 +33,12 @@ export function Home() {
         onChangeText={setNewSkill}
       />
 
-      <TouchableOpacity
-        style={styles.button}
-        activeOpacity={0.7}
-        onPress={handleAddNewSkill}
-      >
-        <Text style={styles.buttonText}>Add</Text>
-      </TouchableOpacity>
+      <Button onPress={handleAddNewSkill}/>
 
       <Text style={[styles.title, { marginVertical: 50 }]}>My Skills</Text>
 
       {mySkills.map((skill, index) => (
-        <TouchableOpacity
-          key={index}
-          style={styles.buttonSkill}
-        >
-          <Text style={styles.textSkill}>{skill}</Text>
-        </TouchableOpacity>
+        <SkillCard skill={skill} key={index}/>
       ))}
     </View>
   )
@@ -68,29 +63,5 @@ const styles = StyleSheet.create({
     padding: 15,
     marginTop: 30,
     borderRadius: 8
-  },
-  button: {
-    backgroundColor: '#a370f7',
-    padding: 15,
-    borderRadius: 8,
-    alignItems: 'center',
-    marginTop: 10
-  },
-  buttonText: {
-    color: '#fff',
-    fontSize: 17,
-    fontWeight: 'bold'
-  },
-  buttonSkill: {
-    backgroundColor: '#1f1e25',
-    padding: 15,
-    borderRadius: 50,
-    alignItems: 'center',
-    marginBottom: 10
-  },
-  textSkill: {
-    color: '#fff',
-    fontSize: 22,
-    fontWeight: 'bold',
   }
 })
