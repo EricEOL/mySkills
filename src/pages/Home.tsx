@@ -34,6 +34,10 @@ export function Home() {
     setMySkills([...mySkills, data]);
   }
 
+  function handleRemoveSkill(id: string) {
+    setMySkills(oldSkills => oldSkills.filter(skill => skill.id !== id));
+  }
+
   const greetings = {
     morning: 'Good morning',
     afternoon: 'Good afternoon',
@@ -64,7 +68,10 @@ export function Home() {
         onChangeText={setNewSkill}
       />
 
-      <Button onPress={handleAddNewSkill} />
+      <Button 
+        title="Add"
+        onPress={handleAddNewSkill} 
+      />
 
       <Text style={[styles.title, { marginVertical: 50 }]}>My Skills</Text>
 
@@ -72,7 +79,10 @@ export function Home() {
         data={mySkills}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
-          <SkillCard skill={item.name} />
+          <SkillCard 
+            skill={item.name}
+            onPress={() => handleRemoveSkill(item.id)} 
+          />
         )}
         showsVerticalScrollIndicator={false}
       />
